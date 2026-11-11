@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3ea">
+  <meta name="description" content="Share your full-day availability and preferences for The Open Room.">
+  <title>RSVP · The Open Room</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="rsvp.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/"> <span class="mark" aria-hidden="true">✳</span> The Open Room</a>
+    <nav aria-label="Event guide">
+      <a href="/#details">Details</a>
+      <a href="/#schedule">Schedule</a>
+      <a class="nav-rsvp" aria-current="page" href="/rsvp/">RSVP <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main id="main" class="wrap rsvp-layout">
+    <div class="rsvp-intro">
+      <p class="eyebrow">The Open Room</p>
+      <h1>RSVP<span>.</span></h1>
+      <p class="intro">Pick the days that work for you and share what would make the gathering feel like yours.</p>
+      <p class="section-intro" id="response-note" hidden></p>
+    </div>
+    <section class="response" aria-label="Guest response">
+        <form name="event-rsvp" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="event-rsvp">
+          <p hidden><label>Leave this field blank <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <div class="field-row">
+            <label>Your name <input name="name" autocomplete="name" required maxlength="120"></label>
+            <label>Email <input name="email" type="email" autocomplete="email" required maxlength="254"></label>
+          </div>
+          <fieldset class="availability" aria-describedby="availability-hint">
+            <legend>Full-day availability</legend>
+            <p id="availability-hint">Select every date you can spend the full day with us.</p>
+            <div class="calendar">
+              <h2>May 2027</h2>
+              <div class="calendar-grid">
+              <abbr title="Monday">Mo</abbr>
+              <abbr title="Tuesday">Tu</abbr>
+              <abbr title="Wednesday">We</abbr>
+              <abbr title="Thursday">Th</abbr>
+              <abbr title="Friday">Fr</abbr>
+              <abbr title="Saturday">Sa</abbr>
+              <abbr title="Sunday">Su</abbr>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true">1</span>
+              <span class="calendar-muted" aria-hidden="true">2</span>
+              <span class="calendar-muted" aria-hidden="true">3</span>
+              <span class="calendar-muted" aria-hidden="true">4</span>
+              <span class="calendar-muted" aria-hidden="true">5</span>
+              <span class="calendar-muted" aria-hidden="true">6</span>
+              <span class="calendar-muted" aria-hidden="true">7</span>
+              <span class="calendar-muted" aria-hidden="true">8</span>
+              <span class="calendar-muted" aria-hidden="true">9</span>
+              <span class="calendar-muted" aria-hidden="true">10</span>
+              <span class="calendar-muted" aria-hidden="true">11</span>
+              <span class="calendar-muted" aria-hidden="true">12</span>
+              <span class="calendar-muted" aria-hidden="true">13</span>
+              <span class="calendar-muted" aria-hidden="true">14</span>
+              <label class="calendar-day"><input type="checkbox" name="available-2027-05-15" value="2027-05-15" aria-label="Saturday, 15 May 2027" data-available-day><span>15</span></label>
+              <label class="calendar-day"><input type="checkbox" name="available-2027-05-16" value="2027-05-16" aria-label="Sunday, 16 May 2027" data-available-day><span>16</span></label>
+              <span class="calendar-muted" aria-hidden="true">17</span>
+              <span class="calendar-muted" aria-hidden="true">18</span>
+              <span class="calendar-muted" aria-hidden="true">19</span>
+              <span class="calendar-muted" aria-hidden="true">20</span>
+              <span class="calendar-muted" aria-hidden="true">21</span>
+              <label class="calendar-day"><input type="checkbox" name="available-2027-05-22" value="2027-05-22" aria-label="Saturday, 22 May 2027" data-available-day><span>22</span></label>
+              <label class="calendar-day"><input type="checkbox" name="available-2027-05-23" value="2027-05-23" aria-label="Sunday, 23 May 2027" data-available-day><span>23</span></label>
+              <span class="calendar-muted" aria-hidden="true">24</span>
+              <span class="calendar-muted" aria-hidden="true">25</span>
+              <span class="calendar-muted" aria-hidden="true">26</span>
+              <span class="calendar-muted" aria-hidden="true">27</span>
+              <span class="calendar-muted" aria-hidden="true">28</span>
+              <label class="calendar-day"><input type="checkbox" name="available-2027-05-29" value="2027-05-29" aria-label="Saturday, 29 May 2027" data-available-day><span>29</span></label>
+              <label class="calendar-day"><input type="checkbox" name="available-2027-05-30" value="2027-05-30" aria-label="Sunday, 30 May 2027" data-available-day><span>30</span></label>
+              <span class="calendar-muted" aria-hidden="true">31</span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              <span class="calendar-muted" aria-hidden="true"></span>
+              </div>
+            </div>
+            <label class="check-line"><input type="checkbox" name="no-availability" value="Yes"> None of these dates work for me</label>
+          </fieldset>
+          <fieldset>
+            <legend>Character customization</legend>
+            <label>Character name <span class="optional">(optional)</span>
+              <input name="character-name" maxlength="120">
+            </label>
+            <label>Character preferences <span class="optional">(optional)</span>
+              <textarea name="character-preferences" rows="2" maxlength="1000" placeholder="Look, style, or other details"></textarea>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Food and drinks</legend>
+            <label>Food preferences <span class="optional">(optional)</span>
+              <textarea name="food-preferences" rows="2" maxlength="500" placeholder="Dietary requirements or foods to avoid"></textarea>
+            </label>
+            <label>Drink preferences <span class="optional">(optional)</span>
+              <input name="drink-preferences" maxlength="300" placeholder="What would you like to drink?">
+            </label>
+          </fieldset>
+          <label class="check-line" id="remember-option" hidden><input type="checkbox" id="remember-response" checked> Remember my answers in this browser so I can revise them</label>
+          <button class="button" type="submit">Send RSVP <span aria-hidden="true">↗</span></button>
+        </form>
+    </section>
+  </main>
+  <footer class="site-footer wrap">
+    <a href="/">Back to the event <span aria-hidden="true">↗</span></a>
+  </footer>
+</body>
+</html>
