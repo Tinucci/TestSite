@@ -2,7 +2,8 @@
   "name": "testsite",
   "version": "1.0.0",
   "scripts": {
-    "invites": "node scripts/create-invites.mjs"
+    "invites": "node scripts/create-invites.mjs",
+    "invites:sync": "node scripts/sync-invites.mjs"
   },
   "repository": {
     "type": "git",

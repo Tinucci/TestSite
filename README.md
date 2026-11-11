@@ -18,6 +18,27 @@ Each guest can reuse their code to load and edit their own RSVP on any device. A
 
 To add a custom code, run `npm run invites -- --custom 'kermit'`. Append the hash after `RSVP_INVITE_HASHES=` to the existing comma-separated value in Netlify, keep `RSVP_SESSION_SECRET`, and redeploy. The guest signs in with `kermit`. Codes are case-sensitive, can contain spaces and punctuation, and must fit in 100 characters. Leading and trailing whitespace is ignored. Use a distinct code per guest because anyone using the same code shares access to the same RSVP. Short, familiar words are easier to guess.
 
+## Sync the production guest list
+
+Install the Netlify CLI, run `netlify login`, then run `netlify link` from this repo and select the event project. Keep a private JSON file outside the repo with one entry per guest. Use either a `code` or a lowercase SHA-256 `hash` in each entry. Names are optional and stay local.
+
+```json
+[
+  { "name": "Example guest", "code": "example-code" }
+]
+```
+
+After editing the file, validate it and sync it to Production.
+
+```sh
+npm run invites:sync -- ~/event-guests.json --dry-run
+npm run invites:sync -- ~/event-guests.json
+```
+
+The command replaces the full `RSVP_INVITE_HASHES` value for the project's **Production** context and requests a build from Netlify's configured production branch. It preserves the variable's existing scope and leaves the session secret alone. Make sure both variables are available to Functions in Production. Guests omitted from the file lose access on the new deploy.
+
+To request the production build again without reading the file or changing the invite list, run `npm run invites:sync -- --deploy-only`.
+
 ## Preview and deploy
 
 Use Netlify Dev for local testing with Functions and Blobs, or enable a Netlify branch deploy for `feature/invite-rsvp`. Give the test deployment its own invite hashes and session secret. The site-wide Blobs store is shared across deploys, but only codes configured for a deploy can access their records and contribute to its tally.
