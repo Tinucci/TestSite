@@ -7,7 +7,7 @@
   <meta name="description" content="Elsewhere for a Day, a cozy day together with a psychedelic theme.">
   <title>Elsewhere for a Day · Event Guide</title>
   <link rel="stylesheet" href="styles.css">
-  <script type="module" src="/motion.mjs"></script>
+  <script type="module" src="/flow.mjs"></script>
   <script type="module" src="/home.mjs"></script>
 </head>
 <body>
@@ -23,18 +23,13 @@
   </header>
   <main id="main" class="wrap">
     <section class="hero" aria-labelledby="event-title">
-      <div class="light-study" aria-hidden="true">
-        <div class="light-fold"></div>
-        <div class="light-haze"></div>
-        <div class="light-shadow"></div>
-      </div>
+      <canvas class="light-study" aria-hidden="true"></canvas>
       <div class="hero-copy">
         <p class="eyebrow">Bavaria · From 10:00, open-ended</p>
-        <h1 id="event-title">Elsewhere<br><em>for a Day</em></h1>
+        <h1 id="event-title">Elsewhere for a Day</h1>
         <p class="intro">A day of altered perspectives and familiar comforts. Music, shared food, and time to lose ourselves in good company.</p>
         <a class="button" href="/rsvp/">Share your availability <span aria-hidden="true">↗</span></a>
       </div>
-      <button type="button" class="motion-toggle" data-motion-toggle hidden>Pause motion</button>
     </section>
 
     <dl id="details" class="facts" aria-label="Event details">

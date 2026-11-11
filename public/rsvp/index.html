@@ -7,7 +7,7 @@
   <meta name="description" content="Share your full-day availability and preferences for Elsewhere for a Day.">
   <title>RSVP · Elsewhere for a Day</title>
   <link rel="stylesheet" href="../styles.css">
-  <script type="module" src="/motion.mjs"></script>
+  <script type="module" src="/flow.mjs"></script>
   <script type="module" src="rsvp.js"></script>
 </head>
 <body>
@@ -23,16 +23,11 @@
   </header>
   <main id="main" class="wrap rsvp-layout">
     <div class="rsvp-intro">
-      <div class="light-study" aria-hidden="true">
-        <div class="light-fold"></div>
-        <div class="light-haze"></div>
-        <div class="light-shadow"></div>
-      </div>
+      <canvas class="light-study" aria-hidden="true"></canvas>
       <p class="eyebrow">Elsewhere for a Day</p>
       <h1>RSVP</h1>
       <p class="intro">Pick the days that work for you and share what would make the gathering feel like yours.</p>
       <button class="text-button" id="sign-out" type="button" hidden>Sign out</button>
-      <button type="button" class="motion-toggle" data-motion-toggle hidden>Pause motion</button>
     </div>
     <section class="response" aria-label="Guest response">
       <p id="notice" class="notice" role="status">Checking invite access…</p>
