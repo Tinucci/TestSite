@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3ea">
+  <meta name="theme-color" content="#191817">
   <meta name="description" content="Elsewhere for a Day, a cozy day together with a psychedelic theme.">
   <title>Elsewhere for a Day · Event Guide</title>
   <link rel="stylesheet" href="styles.css">
+  <script type="module" src="/motion.mjs"></script>
   <script type="module" src="/home.mjs"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
-    <a class="wordmark" href="/"> <span class="mark" aria-hidden="true">✳</span> Elsewhere for a Day</a>
+    <a class="wordmark" href="/"> Elsewhere for a Day</a>
     <nav aria-label="Event guide">
       <a href="/#details">Details</a>
       <a href="/#availability">Availability</a>
@@ -22,10 +23,18 @@
   </header>
   <main id="main" class="wrap">
     <section class="hero" aria-labelledby="event-title">
-      <p class="eyebrow">A psychedelic day out · Bavaria</p>
-      <h1 id="event-title">Elsewhere<br>for a Day<span>.</span></h1>
-      <p class="intro">Step through for a cozy psychedelic adventure with curious characters, shared food, and a day to see where it takes us.</p>
-      <a class="button" href="/rsvp/">Share your availability <span aria-hidden="true">↗</span></a>
+      <div class="light-study" aria-hidden="true">
+        <div class="light-fold"></div>
+        <div class="light-haze"></div>
+        <div class="light-shadow"></div>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Bavaria · From 10:00, open-ended</p>
+        <h1 id="event-title">Elsewhere<br><em>for a Day</em></h1>
+        <p class="intro">A day of altered perspectives and familiar comforts. Music, shared food, and time to lose ourselves in good company.</p>
+        <a class="button" href="/rsvp/">Share your availability <span aria-hidden="true">↗</span></a>
+      </div>
+      <button type="button" class="motion-toggle" data-motion-toggle hidden>Pause motion</button>
     </section>
 
     <dl id="details" class="facts" aria-label="Event details">
@@ -39,9 +48,9 @@
       </div>
     </dl>
 
-    <section id="availability" class="schedule" aria-labelledby="availability-title">
+    <section id="availability" class="availability-section" aria-labelledby="availability-title">
       <div>
-        <h2 id="availability-title">Availability<span>.</span></h2>
+        <h2 id="availability-title">Availability</h2>
         <p class="section-intro">See how many guests are free each day. Select a date to see who’s available by character name.</p>
       </div>
       <div class="public-calendar">
@@ -66,7 +75,7 @@
 
     <section id="schedule" class="schedule" aria-labelledby="schedule-title">
       <div>
-        <h2 id="schedule-title">Schedule<span>.</span></h2>
+        <h2 id="schedule-title">Schedule</h2>
         <p class="section-intro">We start at 10:00 local time. The rest of the day is open-ended.</p>
       </div>
       <ol class="agenda" role="list">
