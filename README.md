@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8dc53ad7-1b8f-442c-aebb-8917db9deac4/deploy-status)](https://app.netlify.com/projects/sesamefun/deploys)
+
 # The Open Room
 
 A small event site with a public overview and a private RSVP per guest. The homepage shows the most-voted date as tentative. If dates tie, it shows the earliest tied date and indicates the tie.
