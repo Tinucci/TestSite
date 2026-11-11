@@ -1,9 +1,9 @@
-import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 import { isEventDate } from '../../public/event-dates.mjs';
+import { hashInviteCode } from './invite-code.mjs';
 
 const cookie = '__Host-event-rsvp';
 const lifetime = 60 * 60 * 24 * 7;
-const digest = (value) => createHash('sha256').update(value).digest('hex');
 
 function respond(data, status = 200, headers = {}) {
   return Response.json(data, { status, headers: { 'Cache-Control': 'no-store', ...headers } });
@@ -57,8 +57,7 @@ export function createRsvpHandler({ store, secret, inviteHashes }) {
     if (request.method === 'DELETE') return respond({}, 200, sessionCookie('', 0));
     if (request.method === 'POST') {
       const body = await request.json().catch(() => null);
-      const code = typeof body?.code === 'string' ? body.code.trim() : '';
-      const id = /^[A-Za-z0-9_-]{24}$/.test(code) ? digest(code) : '';
+      const id = hashInviteCode(body?.code);
       if (!id || !guests.some((guest) => sameDigest(guest, id))) {
         return respond({ error: 'That invite code was not recognized.' }, 401);
       }

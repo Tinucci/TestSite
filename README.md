@@ -16,6 +16,8 @@ Edit [public/index.html](public/index.html) for the event name, location, and sc
 
 Each guest can reuse their code to load and edit their own RSVP on any device. A new save replaces their previous answers. Name, character details, food and drink preferences, and location suggestions are private. The public endpoint returns only the leading date, its vote count, and the number of dates tied for the lead.
 
+To add a custom code, run `npm run invites -- --custom 'kermit'`. Append the hash after `RSVP_INVITE_HASHES=` to the existing comma-separated value in Netlify, keep `RSVP_SESSION_SECRET`, and redeploy. The guest signs in with `kermit`. Codes are case-sensitive, can contain spaces and punctuation, and must fit in 100 characters. Leading and trailing whitespace is ignored. Use a distinct code per guest because anyone using the same code shares access to the same RSVP. Short, familiar words are easier to guess.
+
 ## Preview and deploy
 
 Use Netlify Dev for local testing with Functions and Blobs, or enable a Netlify branch deploy for `feature/invite-rsvp`. Give the test deployment its own invite hashes and session secret. The site-wide Blobs store is shared across deploys, but only codes configured for a deploy can access their records and contribute to its tally.
