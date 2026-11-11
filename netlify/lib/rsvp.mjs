@@ -15,26 +15,41 @@ function sessionCookie(token, age) {
 
 function validateRsvp(body) {
   if (!body || !Array.isArray(body.dates) || body.dates.length > 120 || !body.dates.every(isEventDate)) return null;
-  const limits = { name: 120, characterName: 120, characterVibe: 50, characterNotes: 1000, refreshments: 600, location: 400 };
+  const limits = { alias: 120, characterNotes: 1000, refreshments: 600, location: 400 };
   const details = {};
   for (const [key, limit] of Object.entries(limits)) {
     if (typeof body[key] !== 'string' || body[key].length > limit) return null;
     details[key] = body[key].trim();
   }
-  if (!details.name) return null;
+  if (!details.alias || !details.characterNotes) return null;
   return { ...details, dates: [...new Set(body.dates)].sort() };
 }
 
-export function bestDate(responses) {
-  const votes = new Map();
+function publicAvailability(responses) {
+  const availability = {};
   for (const response of responses) {
-    for (const date of response?.dates ?? []) votes.set(date, (votes.get(date) ?? 0) + 1);
+    for (const date of new Set(response?.dates ?? [])) {
+      if (!isEventDate(date)) continue;
+      const day = (availability[date] ??= { votes: 0, aliases: [] });
+      day.votes++;
+      // Older RSVPs may contain real names. Only the explicit public alias is published.
+      if (response.alias) day.aliases.push(response.alias);
+    }
   }
-  const ranked = [...votes].sort(([dateA, votesA], [dateB, votesB]) =>
-    votesB - votesA || dateA.localeCompare(dateB));
+  for (const day of Object.values(availability)) day.aliases.sort((a, b) => a.localeCompare(b));
+  return availability;
+}
+
+function leadingDate(availability) {
+  const ranked = Object.entries(availability).sort(([dateA, a], [dateB, b]) =>
+    b.votes - a.votes || dateA.localeCompare(dateB));
   if (!ranked.length) return { date: null, votes: 0, tiedDates: 0 };
-  const [date, count] = ranked[0];
-  return { date, votes: count, tiedDates: ranked.filter(([, votes]) => votes === count).length };
+  const [date, { votes }] = ranked[0];
+  return { date, votes, tiedDates: ranked.filter(([, day]) => day.votes === votes).length };
+}
+
+export function bestDate(responses) {
+  return leadingDate(publicAvailability(responses));
 }
 
 export function createRsvpHandler({ store, secret, inviteHashes }) {
@@ -47,7 +62,8 @@ export function createRsvpHandler({ store, secret, inviteHashes }) {
     if (url.pathname === '/api/best-date') {
       if (request.method !== 'GET') return respond({ error: 'Method not allowed.' }, 405);
       const responses = await Promise.all(guests.map((id) => store.get(id, { type: 'json' })));
-      return respond(bestDate(responses));
+      const availability = publicAvailability(responses);
+      return respond({ ...leadingDate(availability), availability });
     }
 
     if (request.method !== 'GET' && request.headers.get('origin') !== url.origin) {
@@ -77,7 +93,7 @@ export function createRsvpHandler({ store, secret, inviteHashes }) {
     if (request.method === 'GET') return respond({ response: await store.get(id, { type: 'json' }) });
     if (request.method !== 'PUT') return respond({ error: 'Method not allowed.' }, 405);
     const response = validateRsvp(await request.json().catch(() => null));
-    if (!response) return respond({ error: 'Check your name, selected dates, and response lengths.' }, 400);
+    if (!response) return respond({ error: 'Enter a fictional character name and description, and check your selected dates and response lengths.' }, 400);
     await store.setJSON(id, response);
     return respond({ response });
   };

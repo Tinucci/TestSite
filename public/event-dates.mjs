@@ -12,3 +12,21 @@ export function formatDate(value, options) {
   return new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'UTC' })
     .format(new Date(value + 'T00:00:00Z'));
 }
+
+export const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+export function adjacentMonth(month, offset) {
+  const date = new Date(month + '-01T00:00:00Z');
+  date.setUTCMonth(date.getUTCMonth() + offset);
+  return date.toISOString().slice(0, 7);
+}
+
+export function monthCells(month) {
+  const start = new Date(month + '-01T00:00:00Z');
+  const offset = (start.getUTCDay() + 6) % 7;
+  const end = new Date(start);
+  end.setUTCMonth(end.getUTCMonth() + 1, 0);
+  const dates = Array.from({ length: end.getUTCDate() }, (_, index) =>
+    month + '-' + String(index + 1).padStart(2, '0'));
+  return [...Array(offset).fill(null), ...dates];
+}
