@@ -11,7 +11,7 @@ Edit [public/index.html](public/index.html) for the event name, location, and sc
 ## Configure invite access
 
 1. Run `npm ci`, then `npm run invites -- 3` to generate three guest codes and the matching settings. Use a separate generated set for testing and for real guests.
-2. In Netlify, set `RSVP_INVITE_HASHES` and `RSVP_SESSION_SECRET` from that output as environment variables available to Functions. Redeploy to apply the settings. Keep the raw codes and session secret out of Git. Give each guest their own code privately.
+2. In Netlify, set `RSVP_INVITE_HASHES` and `RSVP_SESSION_SECRET` as two separate environment variables. Paste only the text after `=` into each value field. The hash list contains comma-separated 64-character hashes. The session secret is a single 64-character value. Keep the raw codes and session secret out of Git. Give each guest their own code privately.
 3. Keep the existing hashes when adding guests. Append only the new hashes and retain the existing session secret. A removed code can no longer sign in or contribute to the tally. Stored responses can be reviewed in **Data & Storage → Blobs → event-rsvp**.
 
 Each guest can reuse their code to load and edit their own RSVP on any device. A new save replaces their previous answers. Name, character details, food and drink preferences, and location suggestions are private. The public endpoint returns only the leading date, its vote count, and the number of dates tied for the lead.
@@ -19,6 +19,10 @@ Each guest can reuse their code to load and edit their own RSVP on any device. A
 ## Preview and deploy
 
 Use Netlify Dev for local testing with Functions and Blobs, or enable a Netlify branch deploy for `feature/invite-rsvp`. Give the test deployment its own invite hashes and session secret. The site-wide Blobs store is shared across deploys, but only codes configured for a deploy can access their records and contribute to its tally.
+
+For a pull or merge request preview, set both values for the **Deploy Previews** context and include the **Functions** scope (or use all scopes). Save the settings, trigger a new preview deploy, then open the latest preview from the pull request. A deploy-specific permalink stays pinned to its original deployment.
+
+On the new preview, open `/api/best-date`. A `200` JSON response confirms configuration and storage are available. If RSVP says access is not configured, check the `event-rsvp` function logs for the missing or malformed variable name. For a preview from a public fork, also check whether the project's untrusted deploy policy withholds sensitive values.
 
 The existing [netlify.toml](netlify.toml) publishes `public`. There is no frontend build command. Netlify Forms is no longer used for new RSVPs. Historical Forms entries are separate and do not count toward the new tally.
 

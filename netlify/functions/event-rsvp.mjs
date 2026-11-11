@@ -7,10 +7,22 @@ export const config = {
 };
 
 export default async (request) => {
-  const secret = process.env.RSVP_SESSION_SECRET;
-  const inviteHashes = (process.env.RSVP_INVITE_HASHES ?? '').split(',').map((value) => value.trim());
-  if (!secret || !/^[a-f0-9]{64}$/.test(secret) || !inviteHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))) {
-    return Response.json({ error: 'RSVP access is not configured yet.' }, { status: 503 });
+  const secret = process.env.RSVP_SESSION_SECRET?.trim();
+  const hashList = process.env.RSVP_INVITE_HASHES?.trim();
+  const inviteHashes = hashList?.split(',').map((value) => value.trim()) ?? [];
+  const issues = [];
+  if (!secret) issues.push('RSVP_SESSION_SECRET is missing');
+  else if (!/^[a-f0-9]{64}$/.test(secret)) issues.push('RSVP_SESSION_SECRET has an invalid format');
+  if (!hashList) issues.push('RSVP_INVITE_HASHES is missing');
+  else if (!inviteHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))) {
+    issues.push('RSVP_INVITE_HASHES has an invalid format');
+  }
+  if (issues.length) {
+    console.warn('RSVP configuration: ' + issues.join('. '));
+    return Response.json({ error: 'RSVP access is not configured yet.' }, {
+      status: 503,
+      headers: { 'Cache-Control': 'no-store' },
+    });
   }
 
   try {
