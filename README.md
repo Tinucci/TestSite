@@ -1,31 +1,25 @@
-# Event website
+# The Open Room
 
-An event guide with a date, location, schedule, and a separate guest RSVP page. The Open Room is a fictional example. Its name, date, city, and programme are sample content.
+A small event site with a public overview and a private RSVP per guest. The homepage shows the most-voted date as tentative. If dates tie, it shows the earliest tied date and indicates the tie.
 
 ## Edit the event
 
-Update [public/index.html](public/index.html) with your event name, description, date, time zone, venue, and programme. Update the page title, meta description, footer, machine-readable `datetime` values, and [confirmation page title](public/thanks/index.html) alongside the visible copy. Remove the sample label when the event details are ready.
+Edit [public/index.html](public/index.html) for the event name, location, and schedule. The shared date range in [public/event-dates.mjs](public/event-dates.mjs) controls both the RSVP calendar and server validation. Update the homepage's fallback range as well. Edit [public/rsvp/index.html](public/rsvp/index.html) to customize the prompts and character options.
 
-Edit [public/rsvp/index.html](public/rsvp/index.html) to change the calendar month and selectable dates, and customize the character, food, and drink prompts. Each selectable day is a labeled checkbox with a unique name in the format `available-YYYY-MM-DD`. Update its label and ISO value when changing a date. Calendar weeks start on Monday.
+## Configure invite access
 
-Guests can select multiple full days or say that none work. They can revisit `/rsvp/` to revise their answers. When they choose to remember their answers, the form prefills them on the same browser. Each revision creates a new Netlify Forms submission. Use the latest response for each email address. Anyone with access to the site can submit the form.
+1. Run `npm ci`, then `npm run invites -- 3` to generate three guest codes and the matching settings. Use a separate generated set for testing and for real guests.
+2. In Netlify, set `RSVP_INVITE_HASHES` and `RSVP_SESSION_SECRET` from that output as environment variables available to Functions. Redeploy to apply the settings. Keep the raw codes and session secret out of Git. Give each guest their own code privately.
+3. Keep the existing hashes when adding guests. Append only the new hashes and retain the existing session secret. A removed code can no longer sign in or contribute to the tally. Stored responses can be reviewed in **Data & Storage → Blobs → event-rsvp**.
 
-## Preview locally
+Each guest can reuse their code to load and edit their own RSVP on any device. A new save replaces their previous answers. Name, character details, food and drink preferences, and location suggestions are private. The public endpoint returns only the leading date, its vote count, and the number of dates tied for the lead.
 
-Run this from the repository root, then open [http://localhost:8000](http://localhost:8000).
+## Preview and deploy
 
-```sh
-python3 -m http.server 8000 --bind 127.0.0.1 --directory public
-```
+Use Netlify Dev for local testing with Functions and Blobs, or enable a Netlify branch deploy for `feature/invite-rsvp`. Give the test deployment its own invite hashes and session secret. The site-wide Blobs store is shared across deploys, but only codes configured for a deploy can access their records and contribute to its tally.
 
-The local server can preview the page and native field validation. Submission storage requires Netlify Forms.
+The existing [netlify.toml](netlify.toml) publishes `public`. There is no frontend build command. Netlify Forms is no longer used for new RSVPs. Historical Forms entries are separate and do not count toward the new tally.
 
-## Deploy from GitHub to Netlify
+For a deployment smoke test, save overlapping dates using two guest codes and verify the homepage tally. Sign back in with the first code, revise its dates, and verify the tally counts only its latest response. Check that a different code cannot open that guest's details.
 
-1. Commit the files and push the `main` branch to GitHub.
-2. In Netlify, select **Add new project → Import an existing project**, choose **GitHub**, and select this repository.
-3. Use `main` as the production branch and leave the build command blank. [netlify.toml](netlify.toml) sets the publish directory to `public`.
-4. In your Netlify project, open **Forms** and enable form detection. Deploy again so Netlify detects `event-rsvp`.
-5. Submit a test RSVP at `/rsvp/` with two available days. Verify the confirmation page and both dates under **Forms → event-rsvp**. Follow the update link, change the dates, and verify that the revised response is received.
-
-[Netlify repository deployment](https://docs.netlify.com/start/quickstarts/deploy-from-repository/) · [Netlify Forms setup](https://docs.netlify.com/manage/forms/setup/)
+[Netlify Functions environment variables](https://docs.netlify.com/build/functions/environment-variables/) · [Netlify Blobs](https://docs.netlify.com/build/data-and-storage/netlify-blobs/)

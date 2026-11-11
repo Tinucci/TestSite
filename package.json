@@ -1,0 +1,19 @@
+{
+  "name": "testsite",
+  "version": "1.0.0",
+  "scripts": {
+    "invites": "node scripts/create-invites.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tinucci/TestSite.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tinucci/TestSite/issues"
+  },
+  "homepage": "https://github.com/Tinucci/TestSite#readme",
+  "dependencies": {
+    "@netlify/blobs": "11.1.9"
+  }
+}

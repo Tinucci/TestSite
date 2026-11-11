@@ -27,7 +27,7 @@ a { color: inherit; text-decoration: none; }
 .wordmark, nav { display: flex; align-items: center; gap: .5rem; font-size: .9rem; font-weight: 700; }
 .mark { color: var(--purple); font-size: 1.3rem; line-height: 1; }
 nav { gap: clamp(.7rem, 3vw, 1.8rem); }
-nav a:hover, .site-footer a:hover, .text-link:hover { text-decoration: underline; text-underline-offset: .25em; }
+nav a:hover, .site-footer a:hover { text-decoration: underline; text-underline-offset: .25em; }
 .nav-rsvp { padding: .42rem .85rem; border: 1px solid var(--purple); border-radius: 100px; color: var(--purple); }
 .nav-rsvp[aria-current] { background: var(--lavender); }
 
@@ -84,10 +84,9 @@ h2 { font-size: clamp(2.8rem, 6vw, 5rem); }
 .rsvp-intro h1 { font-size: clamp(4rem, 9vw, 7.5rem); }
 .response { min-width: 0; padding: clamp(1rem, 3.2vw, 2.25rem); border: 1px solid var(--line); border-radius: 1.25rem; background: var(--surface); }
 form { display: grid; gap: 1.25rem; }
-.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 label { display: block; font-size: .9rem; font-weight: 700; }
 .optional { color: var(--muted); font-weight: 400; }
-input:not([type="checkbox"]):not([type="hidden"]), textarea {
+input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), textarea {
   display: block;
   width: 100%;
   min-height: 44px;
@@ -112,22 +111,16 @@ form .button { justify-self: start; }
 .calendar { max-width: 26rem; margin-block: .8rem; padding: .65rem; border: 1px solid var(--line); border-radius: .75rem; }
 .calendar h2 { margin: .15rem .25rem .55rem; font-size: 1rem; line-height: 1.4; letter-spacing: -.02em; }
 .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .2rem; text-align: center; }
-.calendar-grid abbr, .calendar-muted { color: var(--muted); font-size: .78rem; text-decoration: none; }
-.calendar-muted, .calendar-day span { display: grid; place-items: center; min-height: 40px; }
+.calendar-grid abbr { color: var(--muted); font-size: .78rem; text-decoration: none; }
+.calendar-day span { display: grid; place-items: center; min-height: 40px; }
 .calendar-day { position: relative; cursor: pointer; }
 .calendar-day input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .calendar-day span { border: 1px solid #b9a6cc; border-radius: .5rem; background: var(--lavender); color: var(--purple); }
 .calendar-day:hover span { border-color: var(--purple); }
 .calendar-day input:checked + span { border-color: var(--purple); background: var(--purple); color: #fff; }
 .calendar-day input:focus-visible + span { outline: 2px solid var(--purple); outline-offset: 2px; }
-.check-line { display: flex; align-items: center; gap: .55rem; min-height: 36px; cursor: pointer; }
-.check-line input { flex: none; width: 1.05rem; height: 1.05rem; margin: 0; accent-color: var(--purple); }
 
 .site-footer { padding-block: 1.3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; }
-.confirmation { padding-block: clamp(3rem, 12vw, 8rem); }
-.confirmation h1 { max-width: 12ch; font-size: clamp(2.65rem, 8vw, 6rem); }
-.confirmation .button, .confirmation .text-link { margin: 1.4rem 1rem 0 0; }
-.text-link { display: inline-block; color: var(--purple); }
 
 @media (max-width: 760px) {
   .wrap { width: calc(100% - 36px); }
@@ -140,5 +133,46 @@ form .button { justify-self: start; }
   .wordmark, nav { font-size: .8rem; }
   .nav-rsvp { padding-inline: .55rem; }
   .facts > div { padding-block: 1.05rem; }
-  .field-row { grid-template-columns: 1fr; }
 }
+
+.hero {
+  background-size: 145% 150%;
+  background-position: 12% 24%;
+  animation: glow-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes glow-drift {
+  to { background-position: 86% 70%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero { animation: none; }
+}
+
+#invite-form h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+.notice, #save-status { color: var(--purple); }
+.notice:not(:empty) { margin-bottom: 1rem; }
+#save-status:empty { display: none; }
+.text-button { margin-top: 1rem; padding: 0; border: 0; background: none; color: var(--purple); font: inherit; text-decoration: underline; cursor: pointer; }
+.calendar-controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: .45rem; }
+.calendar-controls h2 { margin: 0; }
+.calendar-controls button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: var(--surface);
+  color: var(--purple);
+  font: inherit;
+  cursor: pointer;
+}
+.calendar-controls button:disabled { opacity: .4; cursor: default; }
+.character { padding: 1rem; border: 1px solid #e3d3ee; border-radius: .8rem; background: #f7eef8; }
+.character > p { margin-bottom: .8rem; color: var(--muted); font-size: .9rem; }
+.character .optional { font-size: .84rem; }
+.vibe-options { display: flex; flex-wrap: wrap; gap: .45rem; margin-block: .85rem; }
+.vibe-options label { position: relative; margin: 0; cursor: pointer; }
+.vibe-options input[type="radio"] { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.vibe-options span { display: block; padding: .4rem .65rem; border: 1px solid #b9a6cc; border-radius: 100px; color: var(--purple); }
+.vibe-options input:checked + span { border-color: var(--purple); background: var(--purple); color: #fff; }
+.vibe-options input:focus-visible + span { outline: 2px solid var(--purple); outline-offset: 3px; }
