@@ -44,6 +44,7 @@ h1, h2 { line-height: .94; font-weight: 800; letter-spacing: -.075em; }
 h1 { margin-block: .8rem 1.15rem; font-size: clamp(3.8rem, 11vw, 9.5rem); }
 h1 span, h2 span { color: var(--purple); }
 .intro { max-width: 37ch; color: var(--muted); font-size: clamp(1rem, 1.7vw, 1.18rem); }
+.hero h1 { font-size: clamp(2.75rem, 10.5vw, 9.5rem); }
 .hero .intro { margin-inline: auto; }
 .button {
   display: inline-flex;
