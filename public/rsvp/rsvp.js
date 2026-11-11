@@ -1,4 +1,4 @@
-import { firstMonth, lastMonth, formatDate } from '../event-dates.mjs';
+import { firstMonth, lastMonth, formatDate, weekdays, adjacentMonth, monthCells } from '../event-dates.mjs';
 
 const inviteForm = document.querySelector('#invite-form');
 const form = document.querySelector('#response-form');
@@ -9,13 +9,11 @@ const calendar = document.querySelector('#calendar-grid');
 const previous = document.querySelector('#prev-month');
 const next = document.querySelector('#next-month');
 const selected = new Set();
-const fields = ['name', 'characterName', 'characterVibe', 'characterNotes', 'refreshments', 'location'];
+const fields = ['alias', 'characterNotes', 'refreshments', 'location'];
 let month = firstMonth;
 
 function moveMonth(offset) {
-  const date = new Date(month + '-01T00:00:00Z');
-  date.setUTCMonth(date.getUTCMonth() + offset);
-  month = date.toISOString().slice(0, 7);
+  month = adjacentMonth(month, offset);
   renderCalendar();
 }
 
@@ -25,23 +23,21 @@ function updateCount() {
 }
 
 function renderCalendar() {
-  const start = new Date(month + '-01T00:00:00Z');
-  const offset = (start.getUTCDay() + 6) % 7;
-  const end = new Date(start);
-  end.setUTCMonth(end.getUTCMonth() + 1, 0);
   document.querySelector('#calendar-month').textContent = formatDate(month + '-01', { month: 'long', year: 'numeric' });
   previous.disabled = month === firstMonth;
   next.disabled = month === lastMonth;
 
   const cells = document.createDocumentFragment();
-  for (const day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']) {
+  for (const day of weekdays) {
     const heading = document.createElement('abbr');
     heading.textContent = day;
     cells.append(heading);
   }
-  for (let blank = 0; blank < offset; blank++) cells.append(document.createElement('span'));
-  for (let day = 1; day <= end.getUTCDate(); day++) {
-    const date = month + '-' + String(day).padStart(2, '0');
+  for (const date of monthCells(month)) {
+    if (!date) {
+      cells.append(document.createElement('span'));
+      continue;
+    }
     const label = document.createElement('label');
     label.className = 'calendar-day';
     const checkbox = document.createElement('input');
@@ -50,7 +46,7 @@ function renderCalendar() {
     checkbox.checked = selected.has(date);
     checkbox.setAttribute('aria-label', formatDate(date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
     const number = document.createElement('span');
-    number.textContent = day;
+    number.textContent = Number(date.slice(-2));
     label.append(checkbox, number);
     cells.append(label);
   }
@@ -96,7 +92,9 @@ function showResponse(response) {
   renderCalendar();
   inviteForm.reset();
   inviteForm.hidden = true;
-  notice.textContent = response ? 'Your saved RSVP is ready to edit.' : '';
+  notice.textContent = response && !response.alias
+    ? 'Add a fictional character name to show your alias on the availability calendar.'
+    : response ? 'Your saved RSVP is ready to edit.' : '';
   saveStatus.textContent = '';
   form.hidden = false;
   signOut.hidden = false;
@@ -108,7 +106,7 @@ inviteForm.addEventListener('submit', async (event) => {
   try {
     const { response } = await request('POST', { code: inviteForm.elements.code.value });
     showResponse(response);
-    form.elements.name.focus();
+    form.elements.alias.focus();
   } catch (error) {
     notice.textContent = error.message;
   } finally {

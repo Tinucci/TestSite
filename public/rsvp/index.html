@@ -3,26 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3ea">
-  <meta name="description" content="Share your full-day availability and preferences for The Open Room.">
-  <title>RSVP · The Open Room</title>
+  <meta name="theme-color" content="#191817">
+  <meta name="description" content="Share your full-day availability and preferences for Elsewhere for a Day.">
+  <title>RSVP · Elsewhere for a Day</title>
   <link rel="stylesheet" href="../styles.css">
+  <script type="module" src="/flow.mjs"></script>
   <script type="module" src="rsvp.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
-    <a class="wordmark" href="/"> <span class="mark" aria-hidden="true">✳</span> The Open Room</a>
+    <a class="wordmark" href="/"> Elsewhere for a Day</a>
     <nav aria-label="Event guide">
       <a href="/#details">Details</a>
+      <a href="/#availability">Availability</a>
       <a href="/#schedule">Schedule</a>
       <a class="nav-rsvp" aria-current="page" href="/rsvp/">RSVP <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
   <main id="main" class="wrap rsvp-layout">
     <div class="rsvp-intro">
-      <p class="eyebrow">The Open Room</p>
-      <h1>RSVP<span>.</span></h1>
+      <canvas class="light-study" aria-hidden="true"></canvas>
+      <p class="eyebrow">Elsewhere for a Day</p>
+      <h1>RSVP</h1>
       <p class="intro">Pick the days that work for you and share what would make the gathering feel like yours.</p>
       <button class="text-button" id="sign-out" type="button" hidden>Sign out</button>
     </div>
@@ -36,7 +39,6 @@
         <button class="button">Open my RSVP <span aria-hidden="true">↗</span></button>
       </form>
       <form id="response-form" hidden>
-        <label>Your name <input name="name" autocomplete="name" required maxlength="120"></label>
         <fieldset class="availability" aria-describedby="availability-hint">
           <legend>Full-day availability</legend>
           <p id="availability-hint">Select every day you can attend. Leave all dates clear if none work.</p>
@@ -51,19 +53,11 @@
           <p id="date-count" aria-live="polite"></p>
         </fieldset>
         <fieldset class="character">
-          <legend>Character studio <span class="optional">(optional)</span></legend>
-          <p>Give your character a name, pick a vibe, or tell us how you imagine them.</p>
-          <label>Character name <input name="characterName" maxlength="120" placeholder="e.g. Velvet Comet"></label>
-          <fieldset class="vibe-options">
-            <legend>Pick a vibe</legend>
-            <label><input type="radio" name="characterVibe" value="" checked><span>Undecided</span></label>
-            <label><input type="radio" name="characterVibe" value="Dreamer"><span>Dreamer</span></label>
-            <label><input type="radio" name="characterVibe" value="Cosmic wanderer"><span>Cosmic wanderer</span></label>
-            <label><input type="radio" name="characterVibe" value="Playful mystic"><span>Playful mystic</span></label>
-            <label><input type="radio" name="characterVibe" value="My own vibe"><span>My own vibe</span></label>
-          </fieldset>
-          <label>Look and backstory
-            <textarea name="characterNotes" rows="3" maxlength="1000" placeholder="Colors, outfit, a tiny backstory…"></textarea>
+          <legend>Your character</legend>
+          <p id="alias-help">Use a fictional character name. Do not use your real name. This alias appears on the public availability calendar.</p>
+          <label>Character name <input name="alias" aria-describedby="alias-help" required maxlength="120" placeholder="e.g. Velvet Comet"></label>
+          <label>Character description
+            <textarea name="characterNotes" rows="3" required maxlength="1000" placeholder="Describe their look, personality, or backstory"></textarea>
           </label>
         </fieldset>
         <label>Food and drink preferences <span class="optional">(optional)</span>
